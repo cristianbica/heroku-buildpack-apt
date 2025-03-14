@@ -95,6 +95,10 @@ assertCapturedSuccess()
 {
   assertEquals "Expected captured exit code to be 0; was <${RETURN}>" "0" "${RETURN}"
   assertEquals "Expected STD_ERR to be empty; was <$(cat ${STD_ERR})>" "" "$(cat ${STD_ERR})"
+  # echo "STDOUT"
+  # cat ${STD_OUT}
+  # echo "STDERR"
+  # cat ${STD_ERR}
 }
 
 # assertCapturedError [[expectedErrorCode] expectedErrorMsg]

@@ -192,6 +192,30 @@ testGitEnvConfig() {
   assertExportContains "declare -x GIT_EXEC_PATH=\"$build_dir/.apt/usr/lib/git-core\"" "$bp_dir"
 }
 
+testCompilePPARepository() {
+  declare -A ubuntu_release_names=(
+    [heroku-20]="focal"
+    [heroku-22]="jammy"
+    [heroku-24]="noble"
+  )
+
+  compile "ppa-repository"
+  assertCaptured "Adding PPA repositories"
+  assertCaptured "Processing fish-shell/release-4"
+  assertCaptured "Adding repository: deb http://ppa.launchpad.net/fish-shell/release-4/ubuntu ${ubuntu_release_names[$STACK]} main"
+  assertCaptured "Adding key"
+  assertCaptured "Updating APT package index"
+  assertCaptured "Fetching .debs for fish"
+  assertCaptured "Exporting environment"
+  assertCapturedSuccess
+}
+
+testReportPPARepository() {
+  report "ppa-repository"
+  assertCaptured 'custom_ppas: "fish-shell/release-4"'
+  assertCapturedSuccess
+}
+
 pushd "$(dirname 0)" >/dev/null || exit 1
 popd >/dev/null || exit 1
 
